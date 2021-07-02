@@ -1,4 +1,4 @@
-//const debug = require('debug')('undo-buffer-angular:main');
+const debug = require('debug')('undo-buffer-angular:main');
 const UndoBuffer = require('undo-buffer');
 
 angular
@@ -10,7 +10,7 @@ angular
 			this.enabled = true;
 
 			this.add = doc => {
-				console.log('add', doc);
+				debug('add', doc);
 				// New instance tracking each object added.
 				this._undoBuffer = new UndoBuffer({
 					objectHash: function(d, i) {
