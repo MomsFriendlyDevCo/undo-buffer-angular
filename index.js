@@ -7,7 +7,7 @@ angular
 
 		const $undoBuffer = function($rootScope) {
 			this._undoBuffer;
-			this.enabled = true;
+			this.watching = true;
 
 			this.add = doc => {
 				debug('add', doc);
@@ -25,7 +25,8 @@ angular
 					},
 				});
 				$rootScope.$watch(scope => doc, (newVal, oldVal, scope) => {
-					// FIXME: Ignore changes made by undo itself. Otherwise undo = 1 step with redo
+					if (!this.watching) return;
+
 					this._undoBuffer.update(newVal, oldVal);
 				}, true);
 			};
