@@ -7,11 +7,10 @@ angular
 
 		const $undoBuffer = function($rootScope) {
 			this._undoBuffer;
-			this.watching = true;
 
 			this.add = doc => {
 				debug('add', doc);
-				// New instance tracking each object added.
+				// New instance tracking each object added {{{
 				this._undoBuffer = new UndoBuffer({
 					objectHash: function(d, i) {
 						// Allow matching for arrays of objects by object key rather than array index.
@@ -24,9 +23,9 @@ angular
 						}
 					},
 				});
-				$rootScope.$watch(scope => doc, (newVal, oldVal, scope) => {
-					if (!this.watching) return;
+				// }}}
 
+				$rootScope.$watch(scope => doc, (newVal, oldVal, scope) => {
 					this._undoBuffer.update(newVal, oldVal);
 				}, true);
 			};
@@ -34,6 +33,17 @@ angular
 			this.undo = doc => this._undoBuffer.undo(doc);
 			this.redo = doc => this._undoBuffer.redo(doc);
 		};
+
+		// Pass enabled straight through to underlying instance {{{
+		Object.defineProperty($undoBuffer.prototype, 'enabled', {
+			get: function() {
+				return this._undoBuffer.enabled;
+			},
+			set: function(val) {
+				this._undoBuffer.enabled = val;
+			},
+		});
+		// }}}
 
 		/**
 		* Return a new instance for each controller
