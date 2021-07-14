@@ -7,7 +7,7 @@ Undo-Buffer-Angular
 app.factory('angular-factory', function($undoBuffer) {
     const obj = {};
 
-    const undoBuffer = $undoBuffer.watch(_.omit(state, [
+    const undoBuffer = $undoBuffer.watch(_.omit(obj, [
         'excluded',
         'fields',
     ]));
