@@ -9,6 +9,6 @@
   "author": "MFDC",
   "license": "MIT",
   "dependencies": {
-    "undo-buffer": "file:../undo-buffer"
+    "@momsfriendlydevco/undo-buffer": "^0.0.1"
   }
 }

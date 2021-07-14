@@ -13,17 +13,29 @@ app.factory('angular-factory', function($undoBuffer) {
     ]));
 
     obj.doUndo = function() {
+        console.time('apply-undo');
         const orig = undoBuffer.enabled;
         undoBuffer.enabled = false;
-        Object.assign(obj, undoBuffer.undo(obj));
-        $rootScope.$evalAsync(() => undoBuffer.enabled = orig);
+        undoBuffer.undo(obj).then(doc => {
+            Object.assign(obj, doc);
+            $timeout(() => {
+                undoBuffer.enabled = orig;
+                console.timeEnd('apply-undo');
+            });
+        });
     };
 
     obj.doRedo = function() {
+        console.time('apply-redo');
         const orig = undoBuffer.enabled;
         undoBuffer.enabled = false;
-        Object.assign(obj, undoBuffer.redo(obj));
-        $rootScope.$evalAsync(() => undoBuffer.enabled = orig);
+        undoBuffer.redo(obj).then(doc => {
+            Object.assign(obj, doc);
+            $timeout(() => {
+                undoBuffer.enabled = orig;
+                console.timeEnd('apply-redo');
+            });
+        });
     };
 });
 ```
