@@ -1,4 +1,4 @@
-const UndoBuffer = require('undo-buffer');
+const UndoBuffer = require('@momsfriendlydevco/undo-buffer');
 
 angular
 	.module('undo-buffer-angular', [])
